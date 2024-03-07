@@ -33,4 +33,9 @@ public class PlayerCharacter : MonoBehaviour
         inputH = h;
         inputV = v;
     }
+
+    public void GetMoveInfo(out Vector3 position)
+    {
+        position = transform.position;
+    }
 }
