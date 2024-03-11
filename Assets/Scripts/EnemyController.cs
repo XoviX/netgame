@@ -11,6 +11,7 @@ using static UnityEngine.EventSystems.EventTrigger;
 public class EnemyController : Character
 {
     [SerializeField] private EnemyCharacter enemyCharacter;
+    [SerializeField] protected EnemyGun gun;
 
     private List<float> recieveTimeInterval = new List<float> { 0, 0, 0, 0, 0};
     private float averageRecieveInterval
@@ -35,6 +36,14 @@ public class EnemyController : Character
         this.player = player;
         enemyCharacter.SetSpeed(player.speed);
         player.OnChange += OnChange;
+    }
+
+    public void Shoot(in ShootInfo info)
+    {
+        Vector3 position = new Vector3(info.pX, info.pY, info.pZ);
+        Vector3 velocity = new Vector3(info.dX, info.dY, info.dZ);
+
+        gun.Shoot(position, velocity);
     }
 
     private void SaveRecieveTime()

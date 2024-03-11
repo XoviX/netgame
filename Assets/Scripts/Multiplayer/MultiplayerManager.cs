@@ -7,10 +7,14 @@ using static UnityEngine.EventSystems.EventTrigger;
 
 public class MultiplayerManager : ColyseusManager<MultiplayerManager>
 {
+    #region Variables
     [SerializeField] private PlayerCharacter playerPrefab;
     [SerializeField] private EnemyController enemyPrefab;
 
     private ColyseusRoom<State> room;
+
+    private Dictionary<string, EnemyController> enemys = new Dictionary<string, EnemyController>();
+    #endregion
 
     protected override void Awake()
     {
@@ -30,7 +34,21 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
         room = await Instance.client.JoinOrCreate<State>("netgame_room", data);
 
         room.OnStateChange += OnChange;
+        room.OnMessage<string>("Shoot", ApplyShoot);
+    }
 
+    private void ApplyShoot(string json)
+    {
+        ShootInfo shootInfo = JsonUtility.FromJson<ShootInfo>(json);
+
+        if (enemys.ContainsKey(shootInfo.key)) 
+        {
+            enemys[shootInfo.key].Shoot(shootInfo);
+        } 
+        else
+        {
+            Debug.LogError("Выстрел незарегистрированного врага");
+        }
     }
 
     private void OnChange(State state, bool isFirstState)
@@ -68,12 +86,18 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
 
         var enemy = Instantiate(enemyPrefab, position, Quaternion.identity);
         enemy.Init(player);
-        
+
+        enemys.Add(key, enemy);
     }
 
     private void RemoveEnemy(string key, Player player)
     {
-        //throw new NotImplementedException();
+        if (!enemys.ContainsKey(key))
+            return;
+
+        enemys[key].Destroy();
+
+        enemys.Remove(key);
     }
 
 
@@ -85,8 +109,22 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
     /// <summary>
     /// Сообщение на сервер
     /// </summary>
+    /// <param name="key">ключ</param>
+    /// <param name="data">словарь</param>
     public void SendMessage(string key, Dictionary<string, object> data)
     {
         room.Send(key, data);
     }
+
+    /// <summary>
+    /// Сообщение на сервер
+    /// </summary>
+    /// <param name="key">ключ</param>
+    /// <param name="data">строка</param>
+    public void SendMessage(string key, string data)
+    {
+        room.Send(key, data);
+    }
+
+    public string GetSessionId() => room.SessionId;
 }
