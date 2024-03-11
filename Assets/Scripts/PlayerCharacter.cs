@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class PlayerCharacter : MonoBehaviour
+public class PlayerCharacter : Character
 {
     [SerializeField] private Rigidbody rb;
     [Tooltip("Башка зайца")]
@@ -18,9 +19,6 @@ public class PlayerCharacter : MonoBehaviour
     [SerializeField] private float maxHeadAngle = 90f;
     private float currentRotateX = 0f;
 
-    [Space(5)]
-    [Tooltip("Скорость перемещения")]
-    [SerializeField] private float speed = 1f;
     private float inputH = 1f;
     private float inputV = 1f;
 
@@ -79,9 +77,10 @@ public class PlayerCharacter : MonoBehaviour
         //Vector3 direction = new Vector3(inputH, 0, inputV).normalized;
         //transform.position += direction * speed * Time.deltaTime;
 
-        Vector3 velocity = (transform.forward * inputV + transform.right * inputH).normalized * speed;
+        Vector3 velocity = (transform.forward * inputV + transform.right * inputH).normalized * Speed;
         velocity.y = rb.velocity.y;
-        rb.velocity = velocity;
+        Velocity = velocity;
+        rb.velocity = Velocity;
     }
 
     public void SetInput(float h, float v, float rotateY)
@@ -97,9 +96,11 @@ public class PlayerCharacter : MonoBehaviour
         inputRotateY = 0;
     }
 
-    public void GetMoveInfo(out Vector3 position, out Vector3 velocity)
+    public void GetMoveInfo(out Vector3 position, out Vector3 velocity, out Vector3 rotate)
     {
         position = transform.position;
         velocity = rb.velocity;
+                                // вверх-вниз               вправо-влево
+        rotate = new Vector3(head.localEulerAngles.x, transform.eulerAngles.y, 0);
     }
 }

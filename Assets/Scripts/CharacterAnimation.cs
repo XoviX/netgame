@@ -9,15 +9,14 @@ public class CharacterAnimation : MonoBehaviour
 
     [SerializeField] private Animator animator;
     [SerializeField] private CheckFly checkFly;
-    [SerializeField] private Rigidbody rb;
-    [SerializeField] private float maxSpeed = 5f;
+    [SerializeField] private Character character;
 
     // Update is called once per frame
     void Update()
     {
         // получение локальной скорости
-        Vector3 localVelocity = rb.transform.InverseTransformVector(rb.velocity);
-        float speed = localVelocity.magnitude / maxSpeed;
+        Vector3 localVelocity = character.transform.InverseTransformVector(character.Velocity);
+        float speed = localVelocity.magnitude / character.Speed;
 
         animator.SetFloat(SPEED, speed * Mathf.Sign(localVelocity.z));
         animator.SetBool(GROUNDED, !checkFly.isFly);

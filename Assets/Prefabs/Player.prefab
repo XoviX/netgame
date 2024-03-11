@@ -95,12 +95,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3311115a2c0eba45a298ebbeb2b2b75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Speed>k__BackingField: 2
   rb: {fileID: 2017990404629163381}
   head: {fileID: 3528555601779562679}
   cameraPoint: {fileID: 7535053926780280807}
   minHeadAngle: -90
   maxHeadAngle: 90
-  speed: 3
   jumpForce: 10
   jumpTime: 0
   jumpDelay: 0.15
@@ -136,8 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 4684344813002330579}
   checkFly: {fileID: 5273566640245585277}
-  rb: {fileID: 2017990404629163381}
-  maxSpeed: 5
+  character: {fileID: 704797633878075684}
 --- !u!54 &2017990404629163381
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -1,7 +1,8 @@
 using UnityEngine;
 
-public class EnemyCharacter : MonoBehaviour
+public class EnemyCharacter : Character
 {
+    [SerializeField] private Transform head;
     // предсказанная позиция
     public Vector3 targetPosition { get; private set; } = Vector3.zero;
     // длинна 
@@ -10,6 +11,18 @@ public class EnemyCharacter : MonoBehaviour
     private void Start()
     {
         targetPosition = transform.position;
+    }
+
+    public void SetSpeed(float value) => Speed = value;
+
+    public void SetRotateX(float value)
+    {
+        head.localEulerAngles = new Vector3(value, 0, 0);
+    }
+
+    public void SetRotateY(float value)
+    {
+        transform.localEulerAngles = new Vector3(0, value, 0);
     }
 
     private void Update()
@@ -34,5 +47,7 @@ public class EnemyCharacter : MonoBehaviour
     {
         targetPosition = position + velocity * averageInterval;
         velocityMagnitude = velocity.magnitude;
+
+        Velocity = velocity;
     }
 }

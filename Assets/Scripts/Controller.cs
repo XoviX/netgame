@@ -28,7 +28,7 @@ public class Controller : MonoBehaviour
 
     private void SendMove()
     {
-        player.GetMoveInfo(out Vector3 position, out Vector3 velocity);
+        player.GetMoveInfo(out Vector3 position, out Vector3 velocity, out Vector3 rotate);
         Dictionary<string, object> data = new Dictionary<string, object>()
         {
             {"pX", position.x},
@@ -36,7 +36,10 @@ public class Controller : MonoBehaviour
             {"pZ", position.z},
             {"vX", velocity.x},
             {"vY", velocity.y},
-            {"vZ", velocity.z}
+            {"vZ", velocity.z},
+            {"rX", rotate.x},
+            {"rY", rotate.y},
+            {"rZ", rotate.z},
         };
         MultiplayerManager.Instance.SendMessage("move", data); 
     }

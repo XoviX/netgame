@@ -7,9 +7,8 @@ using static UnityEngine.EventSystems.EventTrigger;
 
 public class MultiplayerManager : ColyseusManager<MultiplayerManager>
 {
-    [SerializeField] private GameObject playerPrefab;
-    [SerializeField] private GameObject enemyPrefab;
-    private EnemyController enemy;
+    [SerializeField] private PlayerCharacter playerPrefab;
+    [SerializeField] private EnemyController enemyPrefab;
 
     private ColyseusRoom<State> room;
 
@@ -19,13 +18,16 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
 
         Instance.InitializeClient();
         Connect();
-
-        enemy = enemyPrefab.GetComponent<EnemyController>();
     }
 
     private async void Connect()
     {
-        room = await Instance.client.JoinOrCreate<State>("state_handler");
+        Dictionary<string, object> data = new Dictionary<string, object>()
+        {
+            { "speed", playerPrefab.Speed}
+        };
+
+        room = await Instance.client.JoinOrCreate<State>("netgame_room", data);
 
         room.OnStateChange += OnChange;
 
@@ -64,11 +66,12 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
     {
         var position = new Vector3(player.pX, player.pY, player.pZ);
 
-        var newEnemy = Instantiate(enemy, position, Quaternion.identity);
-        player.OnChange += newEnemy.OnChange;
+        var enemy = Instantiate(enemyPrefab, position, Quaternion.identity);
+        enemy.Init(player);
+        
     }
 
-    private void RemoveEnemy(string key, Player value)
+    private void RemoveEnemy(string key, Player player)
     {
         //throw new NotImplementedException();
     }
