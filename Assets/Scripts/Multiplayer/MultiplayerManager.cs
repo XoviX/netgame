@@ -28,7 +28,8 @@ public class MultiplayerManager : ColyseusManager<MultiplayerManager>
     {
         Dictionary<string, object> data = new Dictionary<string, object>()
         {
-            { "speed", playerPrefab.Speed}
+            { "hp", playerPrefab.MaxHealth },
+            { "speed", playerPrefab.Speed }
         };
 
         room = await Instance.client.JoinOrCreate<State>("netgame_room", data);

@@ -11,9 +11,11 @@ public class Bullet : MonoBehaviour
     [Header("Параметры пули")]
     [Tooltip("Время жизни пули")]
     [SerializeField] private float lifeTime = 3f;
+    private int damage = 0;
 
-    public void Init(Vector3 velocity)
+    public void Init(Vector3 velocity, int damage = 0)
     {
+        this.damage = damage;
         rb.velocity = velocity;
         StartCoroutine(DelayDestroy());
     }
@@ -31,6 +33,11 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+       if (collision.collider.TryGetComponent<EnemyCharacter>(out EnemyCharacter enemy))
+        {
+            enemy.ApplyDamage(damage);
+        }
+
         Destroy();
     }
 }

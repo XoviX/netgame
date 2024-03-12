@@ -12,7 +12,9 @@ public class PlayerGun : Gun
     public float bulletSpeed = 100f;
     [Tooltip("Скорострельность")]
     public float rateOfFire = 5f;
-    
+    [Tooltip("Урон пули")]
+    [SerializeField] private int damage = 10;
+
     private float lastShootTime = 0;
 
     public bool TryShoot(out ShootInfo info)
@@ -26,7 +28,7 @@ public class PlayerGun : Gun
         Vector3 velocity = bulletPoint.forward * bulletSpeed;
 
         lastShootTime = Time.time;
-        Instantiate(bulletPrefab, position, bulletPoint.rotation).Init(velocity);
+        Instantiate(bulletPrefab, position, bulletPoint.rotation).Init(velocity, damage);
         shoot?.Invoke();
 
         info.pX = position.x;

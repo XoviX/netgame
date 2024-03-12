@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 
 public class EnemyCharacter : Character
 {
+    [SerializeField] private Health health;
     [SerializeField] private Transform head;
     // предсказанная позиция
     public Vector3 targetPosition { get; private set; } = Vector3.zero;
@@ -14,6 +16,13 @@ public class EnemyCharacter : Character
     }
 
     public void SetSpeed(float value) => Speed = value;
+
+    public void SetHealth(int value)
+    {
+        MaxHealth = value;
+        health.SetMax(value);
+        health.SetCurrent(value);
+    }
 
     public void SetRotateX(float value)
     {
@@ -49,5 +58,10 @@ public class EnemyCharacter : Character
         velocityMagnitude = velocity.magnitude;
 
         Velocity = velocity;
+    }
+
+    internal void ApplyDamage(int damage)
+    {
+        health.ApplyDamage(damage);
     }
 }

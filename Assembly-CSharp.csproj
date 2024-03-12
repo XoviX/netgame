@@ -72,6 +72,7 @@
     <Compile Include="Assets\Scripts\Multiplayer\generated\Player.cs" />
     <Compile Include="Assets\Scripts\EnemyGun.cs" />
     <Compile Include="Assets\Scripts\Multiplayer\MultiplayerManager.cs" />
+    <Compile Include="Assets\Scripts\Health.cs" />
     <Compile Include="Assets\Scripts\GunAnimation.cs" />
     <Compile Include="Assets\Scripts\EnemyCharacter.cs" />
     <Compile Include="Assets\Scripts\Multiplayer\generated\State.cs" />
