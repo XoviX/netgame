@@ -19,6 +19,6 @@ public class Health : MonoBehaviour
     public void ApplyDamage(int value)
     {
         current -= value;
-        Debug.Log(current);
+        //Debug.Log(current);
     }
 }
