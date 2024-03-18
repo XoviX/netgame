@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <MaxHealth>k__BackingField: 100
-  <Speed>k__BackingField: 2
+  <Speed>k__BackingField: 3
   rb: {fileID: 2017990404629163381}
   head: {fileID: 3528555601779562679}
   cameraPoint: {fileID: 7535053926780280807}

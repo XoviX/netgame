@@ -3,21 +3,22 @@ using UnityEngine;
 
 public class EnemyCharacter : Character
 {
-    [SerializeField] private Health health;
+    [SerializeField] public Health health;
     [SerializeField] private Transform head;
     // предсказанная позиция
     public Vector3 targetPosition { get; private set; } = Vector3.zero;
     // длинна 
     private float velocityMagnitude;
 
-    private void Start()
+    private void Awake()
     {
+        health = new Health();
         targetPosition = transform.position;
     }
 
     public void SetSpeed(float value) => Speed = value;
 
-    public void SetHealth(int value)
+    public void SetMaxHP(int value)
     {
         MaxHealth = value;
         health.SetMax(value);

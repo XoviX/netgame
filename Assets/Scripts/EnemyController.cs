@@ -34,7 +34,7 @@ public class EnemyController : Character
     public void Init(Player player)
     {
         this.player = player;
-        enemyCharacter.SetHealth(player.hp);
+        enemyCharacter.SetMaxHP(player.hp);
         enemyCharacter.SetSpeed(player.speed);
         player.OnChange += OnChange;
     }
