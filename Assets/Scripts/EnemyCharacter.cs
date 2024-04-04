@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyCharacter : Character
@@ -10,9 +11,15 @@ public class EnemyCharacter : Character
     // длинна 
     private float velocityMagnitude;
 
+    private string sessionID;
+
+    public void Init(string sessionID)
+    {
+        this.sessionID = sessionID;
+    }
+
     private void Awake()
     {
-        health = new Health();
         targetPosition = transform.position;
     }
 
@@ -64,5 +71,13 @@ public class EnemyCharacter : Character
     internal void ApplyDamage(int damage)
     {
         health.ApplyDamage(damage);
+
+        // отсылаем урон на сервер
+        Dictionary<string, object> data = new Dictionary<string, object>()
+        {
+            { "id", sessionID },
+            { "value", damage }
+        };
+        MultiplayerManager.Instance.SendMessage("damage", data);
     }
 }

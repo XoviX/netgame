@@ -31,10 +31,12 @@ public class EnemyController : Character
 
     private Player player;
 
-    public void Init(Player player)
+    public void Init(string key, Player player)
     {
+        enemyCharacter.Init(key);
+
         this.player = player;
-        enemyCharacter.SetMaxHP(player.hp);
+        enemyCharacter.SetMaxHP(player.maxHP);
         enemyCharacter.SetSpeed(player.speed);
         player.OnChange += OnChange;
     }

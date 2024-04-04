@@ -1,3 +1,4 @@
+using Colyseus.Schema;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,6 +7,8 @@ using UnityEngine.UIElements;
 
 public class PlayerCharacter : Character
 {
+    [SerializeField] private Health health;
+
     [SerializeField] private Rigidbody rb;
     [Tooltip("Башка зайца")]
     [SerializeField] private Transform head;
@@ -51,6 +54,9 @@ public class PlayerCharacter : Character
         camera.parent = cameraPoint;
         camera.localPosition = Vector3.zero;
         camera.localRotation = Quaternion.identity;
+
+        health.SetMax(MaxHealth);
+        health.SetCurrent(MaxHealth);
     }
 
     /// <summary>
@@ -102,5 +108,21 @@ public class PlayerCharacter : Character
         velocity = rb.velocity;
                                 // вверх-вниз               вправо-влево
         rotate = new Vector3(head.localEulerAngles.x, transform.eulerAngles.y, 0);
+    }
+
+    internal void OnChange(List<DataChange> changes)
+    {
+        foreach (var dataChange in changes)
+        {
+            switch (dataChange.Field)
+            {
+                case "currentHP":
+                    health.SetCurrent((sbyte)dataChange.Value);
+                    break;
+                default:
+                    Debug.Log("Не обрабатывается изменение поля: " + dataChange.Field);
+                    break;
+            }
+        }
     }
 }
